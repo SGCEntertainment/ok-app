@@ -58,7 +58,16 @@
     FAPI.Client.call({"method":"users.hasAppPermission", "ext_perm":permission}, callback);
 }
 	    
-	checkPermission();    
+	    var permissions = '"PHOTO_CONTENT","VALUABLE_ACCESS"';
+
+function askSetStatusPermission() {
+    FAPI.UI.showPermissions("[" + permissions + "]");
+    // в результате будет вызвана функция API_callback
+    // стоит обратить внимание на то, что если пользователь снял галочку, но все равно нажал кнопку "Разрешить",
+    // вернется результат "ok", но разрешение предоставлено не будет
+}
+	    
+	askSetStatusPermission(); 
 	    
       const hideFullScreenButton = "1";
       const buildUrl = "Build";
