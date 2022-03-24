@@ -45,6 +45,21 @@
           }
 		);
 	    
+	var permission = "PHOTO_CONTENT";
+	function checkPermission() 
+	    {
+    		var callback = function(status, result, data) {
+       		 if (result){
+            		alert("Разрешение есть");
+        		} else {
+            		alert("Разрешения нет");
+        		}
+    			}
+    FAPI.Client.call({"method":"users.hasAppPermission", "ext_perm":permission}, callback);
+}
+	    
+	checkPermission();    
+	    
       const hideFullScreenButton = "1";
       const buildUrl = "Build";
       const loaderUrl = buildUrl + "/ok app.loader.js";
