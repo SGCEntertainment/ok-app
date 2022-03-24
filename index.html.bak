@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ok app</title>
+    <title>{{{ PRODUCT_NAME }}}</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
-  <body class="dark">
+  <body class="{{{ SPLASH_SCREEN_STYLE.toLowerCase() }}}">
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas"></canvas>
     </div>
@@ -22,20 +22,24 @@
       </div>
     </div>
     <div id="unity-fullscreen-button" style="display: none;"></div>
-	
-	<script type="text/javascript" src="https://api.ok.ru/js/fapi5.js" defer="defer"></script>
     <script>
-      const hideFullScreenButton = "";
+      const hideFullScreenButton = "{{{ HIDE_FULL_SCREEN_BUTTON }}}";
       const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/ok app.loader.js";
+      const loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
       const config = {
-        dataUrl: buildUrl + "/ok app.data",
-        frameworkUrl: buildUrl + "/ok app.framework.js",
-        codeUrl: buildUrl + "/ok app.wasm",
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+#if MEMORY_FILENAME
+        memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+        symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+#endif
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "ok app",
-        productVersion: "0.1",
+        companyName: "{{{ COMPANY_NAME }}}",
+        productName: "{{{ PRODUCT_NAME }}}",
+        productVersion: "{{{ PRODUCT_VERSION }}}",
       };
 
       const container = document.querySelector("#unity-container");
@@ -65,6 +69,9 @@
         container.className = "unity-mobile";
         config.devicePixelRatio = 0;
       }
+#if BACKGROUND_FILENAME
+      canvas.style.background = "url('" + buildUrl + "/{{{ BACKGROUND_FILENAME.replace(/'/g, '%27') }}}') center / cover";
+#endif
       loadingCover.style.display = "";
 
       const script = document.createElement("script");
@@ -89,26 +96,6 @@
         });
       };
       document.body.appendChild(script);
-	  
-		var rParams = FAPI.Util.getRequestParameters();
-		FAPI.init(rParams["api_server"], rParams["apiconnection"],
-          /*
-          * Первый параметр:
-          * функция, которая будет вызвана после успешной инициализации.
-          */
-          function() {
-              alert("Инициализация прошла успешно");
-              // здесь можно вызывать методы API
-          },
-          /*
-          * Второй параметр:
-          * функция, которая будет вызвана, если инициализация не удалась.
-          */
-          function(error) {
-              alert("Ошибка инициализации");
-          }
-		);
-		
     </script>
   </body>
 </html>
